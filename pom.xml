@@ -27,6 +27,12 @@
             <artifactId>httpclient</artifactId>
             <version>4.5.3</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.google.apis</groupId>
+            <artifactId>google-api-services-customsearch</artifactId>
+            <version>v1-rev53-1.22.0</version>
+        </dependency>
     </dependencies>
 
 </project>

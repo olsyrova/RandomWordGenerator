@@ -41,6 +41,14 @@ public class MyView extends JFrame {
         Timer updater = new Timer(4000, new ActionListener() {
             public void actionPerformed(ActionEvent e)
             {
+                sentence1.setText("");
+                sentence2.setText("");
+                sentence3.setText("");
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e1) {
+                    e1.printStackTrace();
+                }
                 updateSentences(sentence1, sentence2, sentence3);
 
             }

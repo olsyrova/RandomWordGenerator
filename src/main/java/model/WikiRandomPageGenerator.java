@@ -1,12 +1,14 @@
 package model;
 
 import controller.MyHttpClient;
+import controller.Normalizer;
 import org.jsoup.Jsoup;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -52,29 +54,23 @@ public class WikiRandomPageGenerator {
 
     private static String getRandomWordFromArticle(String wikiArticle){
         String text = Jsoup.parse(wikiArticle).body().select("p").text();
-        return getRandomWord(normalize(text).split(" "));
+        return getRandomWord(Normalizer.normalize(text).split(" "));
 
     }
 
     private static String getRandomWord(String[] strings){
-        String result = strings[getRandomIndexInRange(strings.length)];
-        if (result.length() < 2 || "".equalsIgnoreCase(result)){
-            getRandomWord(strings);
+        String result = "";
+        if (strings.length > 2){
+            result = strings[getRandomIndexInRange(strings.length)];
+            if (result.length() < 2){
+                System.out.println("length smalle than 1 " + result + " strings were " + Arrays.toString(strings));
+                result = getRandomWord(strings);
+
+            }
         }
+
         return result;
     }
 
-    private static String normalize(String text){
-        /*Document dirty = Jsoup.parseBodyFragment(bodyHtml);
-        dirty.outputSettings().escapeMode(EscapeMode.xhtml);
-        Document clean = new Cleaner(whitelist).clean(dirty);
-        String cleaned = clean.body().html();*/
-        String cleanedText =  text
-                .replaceAll("[-\\.,:;*+\'^•„\"=|\\(\\){}\\[\\]»]", " ")
-                .replaceAll("—", " ")
-                .replaceAll("[\\d+]", "")
-                .replaceAll("( )+", " ")
-                .trim();
-        return cleanedText;
-    }
+
 }
